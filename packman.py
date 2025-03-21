@@ -12,6 +12,9 @@ ghosts = [
     [vector(-180, -160), vector(0, 5)],
     [vector(100, 160), vector(0, -5)],
     [vector(100, -160), vector(-5, 0)],
+    [vector(80, 100), vector(-5, -5)],"New ghost added" 
+    [vector(100, -100), vector(-5, 0)],"New ghost added"
+    [vector(180, 160), vector(0, -5)],"New ghost added"
 ]
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
