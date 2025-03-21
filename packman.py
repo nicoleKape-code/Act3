@@ -92,8 +92,35 @@ def world():
                 path.goto(x + 10, y + 10)
                 path.dot(2, 'white')
 
+def move_towards_pacman(ghost):
+    """Hace que el fantasma se mueva en dirección a Pac-Man."""
+    ghost_pos, ghost_dir = ghost
+
+    # Posibles direcciones
+    directions = [
+        vector(speed, 0),  # Derecha
+        vector(-speed, 0),  # Izquierda
+        vector(0, speed),  # Arriba
+        vector(0, -speed)  # Abajo
+    ]
+
+    # Calcular la mejor dirección hacia Pac-Man
+    best_direction = ghost_dir
+    min_distance = float('inf')
+
+    for direction in directions:
+        new_position = ghost_pos + direction
+        if valid(new_position):  # Solo considerar movimientos válidos
+            distance = abs(pacman.x - new_position.x) + abs(pacman.y - new_position.y)
+            if distance < min_distance:
+                min_distance = distance
+                best_direction = direction
+
+    ghost_dir.x = best_direction.x
+    ghost_dir.y = best_direction.y
+
 def move():
-    "Move pacman and all ghosts."
+    """Mueve a Pac-Man y a los fantasmas."""
     writer.undo()
     writer.write(state['score'])
 
@@ -115,37 +142,21 @@ def move():
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
 
-    for point, course in ghosts:
-        if valid(point + course):
-            point.move(course)
-        else:
-            options = [
-                vector(speed, 0),
-                vector(-speed, 0),
-                vector(0, speed),
-                vector(0, -speed),
-            ]
-            plan = choice(options)
-            course.x = plan.x
-            course.y = plan.y
+    for ghost in ghosts:
+        move_towards_pacman(ghost)  # Llama a la nueva función para que los fantasmas se mueven inteligentemente
+        ghost[0].move(ghost[1])
 
         up()
-        goto(point.x + 10, point.y + 10)
+        goto(ghost[0].x + 10, ghost[0].y + 10)
         dot(20, 'red')
 
     update()
 
-    for point, course in ghosts:
-        if abs(pacman - point) < 20:
+    for ghost in ghosts:
+        if abs(pacman - ghost[0]) < 20:
             return
 
     ontimer(move, 100)
-
-def change(x, y):
-    "Change pacman aim if valid."
-    if valid(pacman + vector(x, y)):
-        aim.x = x
-        aim.y = y
 
 setup(420, 420, 370, 0)
 hideturtle()
