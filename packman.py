@@ -1,4 +1,4 @@
-from random import choice
+from random import choice, randint
 from turtle import *
 from freegames import floor, vector
 
@@ -6,16 +6,16 @@ state = {'score': 0}
 path = Turtle(visible=False)
 writer = Turtle(visible=False)
 aim = vector(5, 0)
-pacman = vector(-40, -80)
+pacman = vector(randint(-9, 9) * 20, randint(-9, 9) * 20) # Change randomly pacman's position
 speed = 10
 ghosts = [
     [vector(-180, 160), vector(speed, 0)],
     [vector(-180, -160), vector(0, speed)],
     [vector(100, 160), vector(0, -speed)],
     [vector(100, -160), vector(-speed, 0)],
-    [vector(80, 100), vector(-speed, -speed)], #"New ghost added" 
-    [vector(160, -100), vector(-speed, 0)], #"New ghost added"
-    [vector(-100, 100), vector(0, -speed)] #"New ghost added"
+    [vector(80, 100), vector(-speed, -speed)], # New ghost added 
+    [vector(160, -100), vector(-speed, 0)], # New ghost added
+    [vector(-100, 100), vector(0, -speed)] # New ghost added
 ]
 tiles = [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
